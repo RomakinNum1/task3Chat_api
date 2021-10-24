@@ -13,6 +13,9 @@
         }
     },
     "require": {
-        "workerman/workerman": "^4.0"
+        "symfony/routing": "^5.3",
+        "symfony/http-foundation": "^5.3",
+        "workerman/workerman": "^4.0",
+        "firebase/php-jwt": "^5.4"
     }
 }
