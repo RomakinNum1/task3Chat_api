@@ -24,7 +24,7 @@ class dataBaseEditor
 
     static function getMessage($dataBaseConnect): array
     {
-        $resultDB = $dataBaseConnect->prepare("SELECT * FROM messages ");
+        $resultDB = $dataBaseConnect->prepare("SELECT * FROM messages");
         $resultDB->execute();
 
         $output = [];

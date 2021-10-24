@@ -9,27 +9,41 @@ $wsWorker->count = 4;
 
 global $Connections;
 
-$wsWorker->onConnect = function ($connection) {
+$wsWorker->onConnect = function ($connection){
     echo 'New connection
     ';
 };
 
 $wsWorker->onMessage = function ($connection, $data) use ($wsWorker) {
     $arrayData = json_decode($data);
+    global $Connections;
+
+    if ($arrayData->type === 'sendMessage') {
+
+        foreach ($wsWorker->connections as $clientConn) {
+            $clientConn->send(json_encode($arrayData));
+        }
+        return;
+    }
+
     if ($arrayData->type === 'addUser') {
-        global $Connections;
         $Connections[] = $arrayData->name;
         $arrayData->usersArr = $Connections;
+
+        foreach ($wsWorker->connections as $clientConn) {
+            $clientConn->send(json_encode($arrayData));
+        }
+        return;
     }
     if ($arrayData->type === 'removeUser') {
-        global $Connections;
         unset($Connections[array_search($arrayData->name, $Connections)]);
 
         $arrayData->usersArr = $Connections;
-    }
 
-    foreach ($wsWorker->connections as $clientConn) {
-        $clientConn->send(json_encode($arrayData));
+        foreach ($wsWorker->connections as $clientConn) {
+            $clientConn->send(json_encode($arrayData));
+        }
+        return;
     }
 };
 
