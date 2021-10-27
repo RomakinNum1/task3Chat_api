@@ -6,4 +6,4 @@ const ERROR_ON_INPUTS = 1;
 
 $dataBaseConnect = ConnectToDB::connect();
 
-echo json_encode(dataBaseEditor::getMessage($dataBaseConnect));
+echo json_encode(dataBaseEditor::getMessage($dataBaseConnect, $_POST['count']));

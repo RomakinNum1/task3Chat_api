@@ -1,6 +1,5 @@
 <?php
 
-use Firebase\JWT\JWT;
 use Roman\Func\ConnectToDB;
 use Roman\Func\dataBaseEditor;
 
@@ -12,7 +11,8 @@ try {
     if ($res) {
         $response = [
             "status" => true,
-            "fullName" => $res["fullName"]
+            "fullName" => $res["fullName"],
+            "id" => $res["id"],
         ];
 
     } else {
