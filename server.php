@@ -2,21 +2,21 @@
 
 use Workerman\Worker;
 
-require_once __DIR__.'/composer/vendor/autoload.php';
+require_once __DIR__ . '/composer/vendor/autoload.php';
 
 $wsWorker = new Worker('websocket://0.0.0.0:2346');
 $wsWorker->count = 4;
 
-global $Connections, $userId;
+$Connections = [];
 
-$wsWorker->onConnect = function ($connection){
+$wsWorker->onConnect = function ($connection) {
     echo 'New connection
     ';
 };
 
 $wsWorker->onMessage = function ($connection, $data) use ($wsWorker) {
     $arrayData = json_decode($data);
-    global $Connections, $userId;
+    global $Connections;
 
     if ($arrayData->type === 'sendMessage') {
         foreach ($wsWorker->connections as $clientConn) {
@@ -26,14 +26,13 @@ $wsWorker->onMessage = function ($connection, $data) use ($wsWorker) {
     }
 
     if ($arrayData->type === 'addUser') {
-        if(isset($userId[$arrayData->name]))
-        {
+        echo $arrayData->name . '     ' . array_search($arrayData->name, $Connections) . '  \n';
+        if (array_search($arrayData->name, $Connections)!==false) {
             $arrayData->usersArr = $Connections;
             $connection->send(json_encode($arrayData));
             return;
         }
         $Connections[] = $arrayData->name;
-        $userId[$arrayData->name] = $arrayData->id;
         $arrayData->usersArr = $Connections;
 
         foreach ($wsWorker->connections as $clientConn) {
@@ -44,7 +43,6 @@ $wsWorker->onMessage = function ($connection, $data) use ($wsWorker) {
 
     if ($arrayData->type === 'removeUser') {
         unset($Connections[array_search($arrayData->name, $Connections)]);
-        unset($userId[$arrayData->name]);
 
         $arrayData->usersArr = $Connections;
 

@@ -3,7 +3,6 @@
 use Roman\Func\ConnectToDB;
 use Roman\Func\dataBaseEditor;
 
-const SELECT_USER = "SELECT * FROM `users` WHERE login = :login";
 $dataBaseConnect = ConnectToDB::connect();
 
 try {
@@ -11,8 +10,7 @@ try {
     if ($res) {
         $response = [
             "status" => true,
-            "fullName" => $res["fullName"],
-            "id" => $res["id"],
+            "login" => $res["login"],
         ];
 
     } else {
