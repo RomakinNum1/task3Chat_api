@@ -1,10 +1,11 @@
 <?php
-//websocket://0.0.0.0:2346 $_ENV['SERVER_CONNECTION_URL']
+
 use Workerman\Worker;
 
 require_once __DIR__ . '/composer/vendor/autoload.php';
 
 $wsWorker = new Worker($_ENV['SERVER_CONNECTION_URL']);                     //создание сервера
+//$wsWorker = new Worker('websocket://0.0.0.0:2346');
 $wsWorker->count = 4;
 
 $Connections = [];                                                          //массив подключённых пользователей(хранит логины)

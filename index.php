@@ -6,12 +6,19 @@ header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token');
 
 require_once './composer/vendor/autoload.php';
 
+use Firebase\JWT\JWT;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\HttpFoundation\Request;
+
+try {
+    JWT::decode($_POST['token'], $_ENV['JWT_KEY'], array('HS256'));
+} catch (Exception $ex) {
+    return;
+}
 
 try {
     $routes = new RouteCollection();
