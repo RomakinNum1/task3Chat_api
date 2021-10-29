@@ -15,21 +15,15 @@ use Symfony\Component\HttpFoundation\Request;
 
 try {
     $routes = new RouteCollection();
-    $routes->add('mainRoute', new Route('/'));
-    $routes->add('requestForAdd', new Route('/includes/addMessage'));
-    $routes->add('requestForGet', new Route('/includes/getMessage'));
-    $routes->add('getToken', new Route('/includes/getToken'));
+    $routes->add('requestForAdd', new Route('/includes/addMessage'));   //добавление сообщения в базу данных
+    $routes->add('requestForGet', new Route('/includes/getMessage'));   //получение сообщений из базы данных
+    $routes->add('getToken', new Route('/includes/getToken'));          //получение записи из базы данных по токену
 
     $context = new RequestContext();
     $context->fromRequest(Request::createFromGlobals());
 
     $matcher = new UrlMatcher($routes, $context);
     $parameters = $matcher->match($context->getPathInfo());
-
-    if ($parameters['_route'] == 'mainRoute') {
-        require_once 'server.php';
-        return;
-    }
 
     if ($parameters['_route'] == 'getToken') {
         require_once 'web/includes/getToken.php';

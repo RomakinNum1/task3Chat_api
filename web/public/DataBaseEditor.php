@@ -5,8 +5,9 @@ namespace Roman\Func;
 use Firebase\JWT\JWT;
 use PDO;
 
-class dataBaseEditor
+class DataBaseEditor
 {
+    //функция получения записи из базы данных по токену(декодируется)
     static function SelectForToken($connect, $data)
     {
         $decoded = JWT::decode($data, $_ENV['JWT_KEY'], array('HS256'));
@@ -16,12 +17,14 @@ class dataBaseEditor
         return $checkLogin->fetch(PDO::FETCH_ASSOC);
     }
 
+    //функция добавления сообщения в базу данных
     static function addMessage($dataBaseConnect, $data)
     {
         $resultDB = $dataBaseConnect->prepare("insert into messages values (null, :name, :message, :time)");
         $resultDB->execute($data);
     }
 
+    //функция получения сообщений из базы данных
     static function getMessage($dataBaseConnect, $count): array
     {
         $count *= 50;

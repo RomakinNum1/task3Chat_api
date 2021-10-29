@@ -1,16 +1,16 @@
 <?php
 
 use Roman\Func\ConnectToDB;
-use Roman\Func\dataBaseEditor;
+use Roman\Func\DataBaseEditor;
 
-$dataBaseConnect = ConnectToDB::connect();
+$dataBaseConnect = ConnectToDB::connect();                                      //подключение к базе данных
 
 try {
-    $res = dataBaseEditor::SelectForToken($dataBaseConnect, $_POST['token']);
+    $res = DataBaseEditor::SelectForToken($dataBaseConnect, $_POST['token']);   //получение данных из базы данных по токену(декодируется)
     if ($res) {
-        $response = [
-            "status" => true,
-            "login" => $res["login"],
+        $response = [                                                           //если запись найдена
+            "status" => true,                                                   //возвращаем логин вместе со статусом
+            "login" => $res["login"],                                           //логины уникальны
         ];
 
     } else {

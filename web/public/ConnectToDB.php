@@ -5,7 +5,7 @@ namespace Roman\Func;
 use PDO;
 use PDOException;
 
-class ConnectToDB
+class ConnectToDB   //singleton
 {
     static private $connection = null;
 
