@@ -22,9 +22,9 @@ try {
 
 try {
     $routes = new RouteCollection();
-    $routes->add('requestForAdd', new Route('/includes/addMessage'));   //добавление сообщения в базу данных
-    $routes->add('requestForGet', new Route('/includes/getMessage'));   //получение сообщений из базы данных
-    $routes->add('getToken', new Route('/includes/getToken'));          //получение записи из базы данных по токену
+    $routes->add('requestForAdd', new Route('/chat_api/includes/addMessage'));   //добавление сообщения в базу данных
+    $routes->add('requestForGet', new Route('/chat_api/includes/getMessage'));   //получение сообщений из базы данных
+    $routes->add('getToken', new Route('/chat_api/includes/getToken'));          //получение записи из базы данных по токену
 
     $context = new RequestContext();
     $context->fromRequest(Request::createFromGlobals());
